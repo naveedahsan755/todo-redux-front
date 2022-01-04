@@ -1,4 +1,15 @@
-const AddList = () => {
+import { connect } from "react-redux";
+import { setListInput, addList } from "../actions";
+
+const AddList = ({ listInput, setListInput, addList }) => {
+  const inputListHandler = (event) => {
+    event.preventDefault();
+
+    if (listInput.inputListValue) {
+      addList({ list: listInput.inputListValue, id: listInput.id });
+      setListInput({ inputListValue: "", id: null });
+    }
+  };
   return (
     <>
       <form>
@@ -8,10 +19,22 @@ const AddList = () => {
               type="text"
               className="form-control"
               placeholder="Enter name of list"
+              value={listInput.inputListValue}
+              onChange={(e) => {
+                setListInput({
+                  inputListValue: e.target.value,
+                  id: listInput.id,
+                });
+              }}
             />
           </div>
           <div className="form-group">
-            <input type="submit" className="btn btn-primary" value="Add" />
+            <input
+              type="submit"
+              className="btn btn-primary"
+              value="Add"
+              onClick={(e) => inputListHandler(e)}
+            />
           </div>
         </div>
       </form>
@@ -19,4 +42,7 @@ const AddList = () => {
   );
 };
 
-export default AddList;
+export default connect(({ listInput }) => ({ listInput }), {
+  setListInput,
+  addList,
+})(AddList);
