@@ -1,7 +1,10 @@
 import { connect } from "react-redux";
-import { setListInput, removeList } from "../actions";
+import { setListInput, removeList, setTodos } from "../actions";
 
-const DisplayLists = ({ lists, setListInput, removeList }) => {
+const DisplayLists = ({ lists, setListInput, removeList, setTodos }) => {
+  if (lists.length === 0) {
+    return <h6 className="mx-4">No List Added</h6>;
+  }
   const allLists = lists.map((list) => {
     return (
       <div
@@ -10,7 +13,14 @@ const DisplayLists = ({ lists, setListInput, removeList }) => {
       >
         <div>
           <div className="px-2">
-            <p>{list.name}</p>
+            <p
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setTodos({ todos: list.todos, id: list._id });
+              }}
+            >
+              {list.name}
+            </p>
           </div>
         </div>
         <div className="d-flex">
@@ -80,9 +90,8 @@ const DisplayLists = ({ lists, setListInput, removeList }) => {
   );
 };
 
-export default connect(
-  (state) => ({
-    lists: state.lists,
-  }),
-  { setListInput, removeList }
-)(DisplayLists);
+export default connect(({ lists }) => ({ lists }), {
+  setListInput,
+  removeList,
+  setTodos,
+})(DisplayLists);

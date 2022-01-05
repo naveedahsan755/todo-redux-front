@@ -21,7 +21,36 @@ const listInputReducer = (state = { inputListValue: "", id: null }, action) => {
   }
 };
 
+const todoInputReducer = (
+  state = { title: "", date: "", done: false, tid: null },
+  action
+) => {
+  switch (action.type) {
+    case "SET_TODO_INPUT":
+      return {
+        title: action.payload.title,
+        date: action.payload.date,
+        done: action.payload.done,
+        tid: action.payload.tid,
+      };
+    default:
+      return state;
+  }
+};
+
+const todosReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SET_TODOS":
+      return { todos: action.payload.todos, id: action.payload.id };
+
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   lists: listsReducer,
   listInput: listInputReducer,
+  todos: todosReducer,
+  todoInput: todoInputReducer,
 });

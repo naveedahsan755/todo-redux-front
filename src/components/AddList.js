@@ -34,6 +34,7 @@ const AddList = ({ listInput, setListInput, addList }) => {
               className="btn btn-primary"
               value="Add"
               onClick={(e) => inputListHandler(e)}
+              disabled={!listInput.inputListValue}
             />
           </div>
         </div>
